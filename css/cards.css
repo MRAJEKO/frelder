@@ -1,0 +1,111 @@
+:root {
+  --card-font-size: calc(25px * var(--scale));
+  --card-width: calc(175px * var(--scale));
+}
+
+#cards {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--gap);
+  gap: var(--gap * 4);
+}
+
+#lights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+
+#sensors {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.card-big {
+  height: var(--card-width);
+}
+
+.card-brightness {
+  height: calc(125px * var(--scale));
+}
+
+.card-data {
+  height: calc(100px * var(--scale));
+}
+
+.card {
+  width: var(--card-width);
+  font-size: var(--card-font-size);
+  display: grid;
+  place-items: center;
+  border-radius: var(--border-radius);
+  background-color: var(--card-background);
+  text-align: center;
+  padding: 15px;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Different options for the cards such as brightness, color setting, ect. */
+.options {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: calc(15px * var(--scale));
+}
+
+.option-title {
+  font-size: calc(15px * var(--scale));
+  place-self: start;
+}
+
+.option-title p {
+  font-family: "InterMedium", Helvetica, sans-serif;
+}
+
+.slider {
+  background-color: var(--card-background);
+  width: 100%;
+  border-radius: var(--border-radius);
+  height: calc(25px * var(--scale));
+  display: flex;
+  align-items: center;
+}
+
+.slider .cursor {
+  height: calc(45px * var(--scale));
+  width: calc(45px * var(--scale));
+  background-color: var(--white);
+  border-radius: 50%;
+  font-size: calc(15px * var(--scale));
+  display: grid;
+  place-items: center;
+  margin-left: 15%;
+}
+
+.slider .cursor p {
+  color: var(--black);
+}
+
+.card-popout {
+  height: calc(75px * var(--scale));
+}
+
+.data-value {
+  font-size: calc(30px * var(--scale));
+}
+
+.line {
+  width: 100%;
+  background-color: var(--card-background);
+  height: calc(2px * var(--scale));
+  border-radius: 10px;
+}
+
+.big-line {
+  width: 100%;
+  background-color: var(--black);
+  height: calc(2.5px * var(--scale));
+}

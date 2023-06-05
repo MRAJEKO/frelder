@@ -6,28 +6,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smart Home</title>
 
-    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./assets/colors.css" />
+    <link rel="stylesheet" href="./assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="./css/cards.css" />
+    <link rel="stylesheet" href="./css/scenes.css" />
 
-    <script src="js/index.js" defer></script>
+    <script src="./js/index.js" defer></script>
   </head>
   <body>
     <div id="container">
-      <div id="titlescenes">
-        <h1 class="titlescene">Scenes</h1>
-      </div>
-      <div id="scenes">
-        <div class="scene">Lichten laag</div>
-        <div class="scene">Lichten middelmatig</div>
-        <div class="scene">Lichten hoog</div>
-        <div class="scene">TV Kijken</div>
-      </div>
-      <div id="cards">
-        <div class="big-card">Alles aan</div>
-        <div class="big-card">Alles uit</div>
-        <div class="brightness-card">Keuken</div>
-        <div class="popout-card">Woonkamer</div>
-        <div class="data-card"></div>
-      </div>
+      <section id="scenes">
+        <h1 class="title">Scenes</h1>
+        <div id="scene-cards">
+          <div class="scene"><p>Lichten laag</p></div>
+          <div class="scene"><p>Lichten middelmatig</p></div>
+          <div class="scene"><p>Lichten hoog</p></div>
+          <div class="scene"><p>TV Kijken</p></div>
+        </div>
+      </section>
+      <div class="big-line"></div>
+      <section id="cards">
+        <div id="lights"></div>
+        <div id="sensors"></div>
+      </section>
     </div>
+
+    <!-- Templates for all cards -->
+
+    <template id="card-big">
+      <div class="card-big card"><p></p></div>
+    </template>
+
+    <template id="card-brightness">
+      <div class="card-brightness card">
+        <div class="card-title"><p></p></div>
+        <div class="line"></div>
+        <div class="options">
+          <div class="option-title">
+            <p></p>
+          </div>
+          <div class="slider">
+            <div class="cursor">
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="card-popout">
+      <div class="card-popout card"><p></p></div>
+    </template>
+
+    <template id="card-data">
+      <div class="card-data card">
+        <div class="card-title"><p></p></div>
+        <div class="line"></div>
+        <div class="data-value"><p></p></div>
+      </div>
+    </template>
   </body>
 </html>

@@ -1,0 +1,32 @@
+#scenes {
+  padding: var(--gap) 0 0 var(--gap);
+}
+
+#scene-cards {
+  padding: var(--gap) 0;
+  display: flex;
+  gap: var(--gap);
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+#scene-cards::-webkit-scrollbar {
+  display: none;
+}
+
+#titlescenes {
+  padding-top: calc(20px * var(--scale));
+  padding-left: calc(30px * var(--scale));
+}
+
+.scene {
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--card-background);
+  font-size: calc(28px * var(--scale));
+  padding: calc(20px * var(--scale)) calc(30px * var(--scale));
+  white-space: nowrap;
+}
