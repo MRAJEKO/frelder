@@ -23,15 +23,15 @@
 }
 
 .card-big {
-  height: var(--card-width);
+  min-height: var(--card-width);
 }
 
 .card-brightness {
-  height: calc(125px * var(--scale));
+  min-height: calc(125px * var(--scale));
 }
 
 .card-data {
-  height: calc(100px * var(--scale));
+  min-height: calc(100px * var(--scale));
 }
 
 .card {
@@ -90,7 +90,11 @@
 }
 
 .card-popout {
-  height: calc(75px * var(--scale));
+  min-height: calc(75px * var(--scale));
+}
+
+.card-state {
+  min-height: calc(75px * var(--scale));
 }
 
 .data-value {
@@ -108,4 +112,12 @@
   width: 100%;
   background-color: var(--black);
   height: calc(2.5px * var(--scale));
+}
+
+.enabled {
+  background-color: var(--enabled);
+}
+
+.enabled p {
+  color: var(--black) !important;
 }
