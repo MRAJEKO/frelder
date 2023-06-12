@@ -23,15 +23,15 @@
 }
 
 .card-big {
-  min-height: var(--card-width);
+  height: var(--card-width);
 }
 
 .card-brightness {
-  min-height: calc(125px * var(--scale));
+  height: calc(125px * var(--scale));
 }
 
 .card-data {
-  min-height: calc(100px * var(--scale));
+  height: calc(100px * var(--scale));
 }
 
 .card {
@@ -46,6 +46,10 @@
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  position: relative;
 }
 
 /* Different options for the cards such as brightness, color setting, ect. */
@@ -90,11 +94,11 @@
 }
 
 .card-popout {
-  min-height: calc(75px * var(--scale));
+  height: calc(75px * var(--scale));
 }
 
 .card-state {
-  min-height: calc(75px * var(--scale));
+  height: calc(75px * var(--scale));
 }
 
 .data-value {

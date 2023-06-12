@@ -6,9 +6,17 @@ class Device {
   constructor(device) {
     this.name = device.friendly_name;
 
-    this.brightnessSetting =
-      device?.definition?.exposes?.some((expose) => expose?.features?.find((feature) => feature.property === "brightness")) ?? false;
+    const brightnessObject = device?.definition?.exposes
+      ?.find((expose) => expose?.features?.find((feature) => feature.property === "brightness"))
+      ?.features?.find((feature) => feature.property === "brightness");
+
+    console.log(brightnessObject);
+
+    this.brightnessSetting = brightnessObject !== undefined;
     this.brightness = null;
+
+    this.maxValue = brightnessObject?.value_max ?? null;
+    this.minValue = brightnessObject?.value_min ?? null;
 
     this.colorSetting =
       device?.definition?.exposes?.some((expose) => expose?.features?.find((feature) => feature.property === "color")) ?? false;
@@ -20,11 +28,13 @@ class Device {
   }
 
   button() {
-    if (this.brightnessSetting && !this.colorSetting) {
+    if (this.brightnessSetting && !this.colorSetting && this.brightness !== null) {
       const template = document.getElementById("card-brightness");
       const newButton = template.content.cloneNode(true);
 
       newButton.querySelector(".card-title p").textContent = this.name;
+
+      newButton.querySelector(".cursor p").textContent = this.brightness;
 
       const lightsContainer = document.getElementById("lights");
 
@@ -104,35 +114,40 @@ function setupEventSource() {
 
     console.log(payload);
 
-    if (topic === "devices") {
+    if (topic === "devices" && Object.values(devices).length === 0) {
       devices = payload.reduce((result, device) => {
         result[device.friendly_name] = new Device(device).button();
 
         return result;
       }, {});
-
-      console.log(devices);
     } else {
-      // console.log(topic, payload);
-
-      console.log(topic);
       console.log(devices);
 
-      // for (const property in payload) {
-      //   console.log(devices[topic]?.[property]);
-      //   if (devices?.[topic]?.[property] || devices?.[topic]?.[property] === null) {
-      //     devices[topic][property] = payload[property];
-      //   }
-      // }
-
-      console.log(devices);
+      for (const property in payload) {
+        if (devices?.[topic]?.[property] || devices?.[topic]?.[property] === null) {
+          switch (property) {
+            case "brightness":
+              console.log("brightness");
+              if (payload[property] === 0) {
+                devices[topic][property] = 0;
+              }
+              devices[topic][property] =
+                devices[topic][property] === 0
+                  ? 0
+                  : devices?.[topic]?.maxValue === payload[property]
+                  ? 100
+                  : ((devices?.[topic]?.maxValue - payload[property]) / payload[property]) * 100;
+              break;
+            default:
+              if (devices?.[topic]?.[property] || devices?.[topic]?.[property] === null) {
+                devices[topic][property] = payload[property];
+              }
+          }
+        }
+      }
     }
 
     // add the data to the html-console so you can see what happens
-
-    if (topic === "devices") {
-      // container.innerHTML = payload.map((device) => `<p>${device.friendly_name}</p>\n`).join("");
-    }
   };
 
   evtSource.onopen = (_e) => {
