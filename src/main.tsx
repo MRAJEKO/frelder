@@ -1,10 +1,30 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import Dashboard from "./components/Dashboard";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+import "./assets/colors.scss";
+
+import "./assets/index.scss";
+import "./assets/fonts/fonts.scss";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#ffffff",
+      contrastText: "#000000",
+    },
+    secondary: {
+      main: "#000000",
+      contrastText: "#ffffff",
+    },
+  },
+});
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+    <ThemeProvider theme={theme}>
+      <Dashboard />
+    </ThemeProvider>
+  </React.StrictMode>
+);
