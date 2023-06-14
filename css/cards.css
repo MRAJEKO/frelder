@@ -125,3 +125,7 @@
 .enabled p {
   color: var(--black) !important;
 }
+
+.logoimg{
+  width: 150px;
+}
