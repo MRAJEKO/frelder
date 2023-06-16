@@ -1,6 +1,6 @@
 export type IDevices = IDevice[];
 
-interface IDevice {
+export interface IDevice {
   definition: null | IDefinition;
   disabled: boolean;
   friendly_name: string;
@@ -64,3 +64,10 @@ export type IFeatureProperty =
   | "water_leak"
   | "occupancy"
   | "bat";
+
+export interface IPayload {
+  [key: string]: any;
+  state?: string;
+  color?: string;
+  brightness?: number;
+}

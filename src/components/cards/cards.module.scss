@@ -1,7 +1,7 @@
 @use "../../assets/colors.scss" as *;
 @use "../../assets/index.scss" as *;
 
-$card-font-size: 25px * $scale;
+$card-font-size: 23px * $scale;
 $card-width: 175px * $scale;
 
 @mixin center {
@@ -65,13 +65,14 @@ $card-width: 175px * $scale;
     transform: scale(0.95);
   }
 
+  p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+  }
+
   .card-title {
     width: 100%;
-
-    p {
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
   }
 }
 
@@ -117,15 +118,16 @@ $card-width: 175px * $scale;
 }
 
 .card-popout {
-  min-height: 75px * $scale;
+  height: 75px * $scale;
 }
 
 .card-state {
-  min-height: 75px * $scale;
+  height: 60px * $scale;
+  justify-content: center;
 }
 
 .data-value {
-  font-size: 30px * $scale;
+  size: 30px * $scale;
 }
 
 .enabled {

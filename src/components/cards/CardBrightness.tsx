@@ -8,41 +8,42 @@ import { IFeatureProperty } from "../../types/devices";
 
 interface IProps {
   topic: string;
-  title: string;
-  optionsTitle: string;
   deviceInfo: ICustomDevice;
   onChange: (topic: string, key: IFeatureProperty, value: number | string | boolean) => void;
 }
 
-const CardBrightness = ({ topic, title, optionsTitle, deviceInfo, onChange }: IProps) => {
-  const [brightness, setBrightness] = useState<number>(deviceInfo?.brightness || 0);
+const CardBrightness = ({ topic, deviceInfo, onChange }: IProps) => {
+  console.log(deviceInfo?.brightness);
+  const [brightness, setBrightness] = useState<number>(((deviceInfo?.brightness || 0) / 254) * 100);
 
   const changeBrightness = (_e: any, value: number | number[]) => {
-    const feature = { brightness: typeof value == "number" ? value : brightness };
+    const feature = { brightness: (typeof value == "number" ? value : brightness) * 2.54 };
     setDevice(topic, feature);
   };
 
   return (
     <div
-      className={`${styles.card} ${styles["card-brightness"]} ${deviceInfo?.state ? styles.enabled : ""}`}
-      onClick={() => onChange(topic, "state", !deviceInfo?.state ?? false)}
+      className={`${styles.card} ${styles["card-brightness"]} ${deviceInfo?.state === "ON" ? styles.enabled : ""}`}
+      onClick={() => {
+        const feature = { state: deviceInfo?.state === "ON" ? "OFF" : "ON" };
+        setDevice(topic, feature);
+        onChange(topic, "state", deviceInfo?.state === "ON" ? "OFF" : "ON");
+      }}
     >
       <div className={styles["card-title"]}>
-        <p>{title}</p>
+        <p>{topic}</p>
       </div>
       <div className={styles.line}></div>
       <div className={styles.options}>
         <div className={styles["option-title"]}>
-          <p>
-            {optionsTitle} | {brightness}%
-          </p>
+          <p>Helderheid | {brightness}%</p>
         </div>
         <Slider
-          color={deviceInfo?.state ? "secondary" : "primary"}
+          color={deviceInfo?.state === "ON" ? "secondary" : "primary"}
           value={brightness}
           onChange={(_e, value) => setBrightness(typeof value == "number" ? value : brightness)}
           onChangeCommitted={changeBrightness}
-          onClick={(e) => (deviceInfo?.state ? e.stopPropagation() : null)}
+          onClick={(e) => (deviceInfo?.state === "ON" ? e.stopPropagation() : null)}
         ></Slider>
       </div>
     </div>

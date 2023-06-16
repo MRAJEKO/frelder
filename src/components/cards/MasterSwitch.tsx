@@ -1,10 +1,10 @@
 import styles from "./cards.module.scss";
 
 interface IProps {
-  setDevices: (enabled: boolean) => void;
+  setDevices: (newState: string) => void;
   title: string;
   enabled: boolean;
-  masterValue: boolean;
+  masterValue: string;
 }
 
 const masterSwitch = ({ setDevices, title, enabled, masterValue }: IProps) => {

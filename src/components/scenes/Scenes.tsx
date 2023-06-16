@@ -14,9 +14,6 @@ const Scenes = () => {
         <div className={styles.scene}>
           <p>Lichten hoog</p>
         </div>
-        <div className={styles.scene}>
-          <p>TV Kijken</p>
-        </div>
       </div>
     </section>
   );

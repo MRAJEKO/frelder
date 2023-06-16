@@ -1,10 +1,12 @@
-import { host, port, apiSet } from "../constants/connection";
+import { host, port, apiSet } from "../config";
 
-export const setDevice = (device: string, feature: any) => {
+export const setDevice = (topic: string, feature: any) => {
   const payload = {
-    device,
+    topic,
     feature,
   };
+
+  console.log(JSON.stringify(payload));
 
   const options = {
     method: "POST",
