@@ -10,21 +10,7 @@ import { setDevice } from "../../functions/setApi";
 import CardPopout from "./CardPopout";
 import CardColor from "./CardColor";
 import { convertXYToHexColor } from "../../functions/colorConvertion";
-
-export interface ICustomDevices {
-  [key: string]: ICustomDevice;
-}
-
-export interface ICustomDevice {
-  [key: string]: boolean | number | string | null;
-  brightnessSetting: boolean;
-  brightness: number | null;
-  colorSetting: boolean;
-  color: string | null;
-  stateSetting: boolean;
-  state: string | null;
-  initialStates: boolean;
-}
+import { ICustomDevice, ICustomDevices } from "../Dashboard";
 
 export interface IColorPopoutState {
   topic: string | null;
@@ -32,18 +18,15 @@ export interface IColorPopoutState {
   shown: boolean;
 }
 
-const Cards = () => {
-  const [devices, setDevices] = useState<ICustomDevices>({
-    "woonkamer/schemerlamp": {
-      brightnessSetting: true,
-      brightness: 76,
-      colorSetting: true,
-      color: null,
-      stateSetting: true,
-      state: "ON",
-      initialStates: false,
-    },
-  });
+interface IProps {
+  devices: ICustomDevices;
+  setDevices: any;
+}
+
+const Cards = ({ devices, setDevices }: IProps) => {
+  // const [devices, setDevices] = useState<ICustomDevices>({
+
+  // });
 
   const [colorPopout, setColorPopout] = useState<IColorPopoutState>({
     topic: null,
@@ -109,7 +92,7 @@ const Cards = () => {
     });
   }, []);
 
-  // console.log(devices);
+  console.log(devices);
 
   const masterSwitchDevices = (newState: string) => {
     const newDevices = Object.keys(devices)
@@ -125,7 +108,9 @@ const Cards = () => {
     setDevices({ ...newDevices });
   };
 
-  const changeValue = (topic: string, key: string, value: number | string | boolean) => {
+  const changeValue = (topic: string, key: string, value: number | string | boolean | null) => {
+    if (value === null) return;
+
     const feature = { [key]: value };
     setDevices((prevDevices: ICustomDevices) => {
       return { ...prevDevices, [topic]: { ...prevDevices[topic], ...feature } };
@@ -138,10 +123,19 @@ const Cards = () => {
 
   useData(handleReceiveData);
 
-  const handleColorChange = (newPopoutState: IColorPopoutState, newColor: string, newState: string) => {
+  const handleColorChange = (newPopoutState: IColorPopoutState) => {
     setColorPopout(newPopoutState);
-    changeValue(newPopoutState.topic ?? "", "color", newColor ?? null);
-    changeValue(newPopoutState.topic ?? "", "state", newState ?? null);
+    setDevices((prevDevices: ICustomDevices) => {
+      return {
+        ...prevDevices,
+        [newPopoutState.topic ?? ""]: {
+          ...prevDevices[newPopoutState.topic ?? ""],
+          color: newPopoutState.deviceInfo?.color ?? null,
+          brightness: newPopoutState.deviceInfo?.brightness ?? null,
+          state: newPopoutState.deviceInfo?.state ?? null,
+        },
+      };
+    });
   };
 
   return (

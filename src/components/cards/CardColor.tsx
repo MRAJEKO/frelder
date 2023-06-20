@@ -12,16 +12,19 @@ import { setDevice } from "../../functions/setApi";
 
 interface IProps {
   info: IColorPopoutState;
-  setColorPopout: (info: IColorPopoutState, newColor: string, newState: string) => void;
+  setColorPopout: (info: IColorPopoutState) => void;
 }
 
 const CardColor = ({ info, setColorPopout }: IProps) => {
   const [enabled, setEnabled] = useState<boolean>(info.deviceInfo?.state === "ON" ?? false);
 
+  const [brightness, setBrightness] = useState<number>(Math.round(((info.deviceInfo?.brightness || 0) / 254) * 100));
+
   const [color, setColor] = useState<string>(info.deviceInfo?.color ?? "#ffffff");
 
   useEffect(() => {
     setEnabled(info.deviceInfo?.state === "ON" ?? false);
+    setBrightness(Math.round(((info.deviceInfo?.brightness || 0) / 254) * 100));
   }, [info]);
 
   useEffect(() => {
@@ -30,16 +33,16 @@ const CardColor = ({ info, setColorPopout }: IProps) => {
   }, [enabled]);
 
   const handleClose = () => {
-    setColorPopout(
-      {
-        ...info,
-        deviceInfo: { ...info.deviceInfo, color: color ?? "#ffffff" },
-        color,
-        shown: false,
-      } as IColorPopoutState,
-      color,
-      enabled ? "ON" : "OFF"
-    );
+    setColorPopout({
+      ...info,
+      deviceInfo: {
+        ...info.deviceInfo,
+        color: color,
+        brightness: Math.round(brightness * 2.54),
+        state: enabled ? "ON" : "OFF" ?? "#ffffff",
+      },
+      shown: false,
+    } as IColorPopoutState);
   };
 
   return (
@@ -52,7 +55,12 @@ const CardColor = ({ info, setColorPopout }: IProps) => {
         </div>
       ) : null}
       {info.deviceInfo?.brightnessSetting ? (
-        <BrightnessSlider topic={info.topic ?? ""} deviceInfo={info.deviceInfo} forceColor={"primary"} />
+        <BrightnessSlider
+          changeBrightness={(brightness: number) => setBrightness(brightness)}
+          topic={info.topic ?? ""}
+          deviceInfo={info.deviceInfo}
+          forceColor={"primary"}
+        />
       ) : null}
 
       <div className={styles["color-container"]}>

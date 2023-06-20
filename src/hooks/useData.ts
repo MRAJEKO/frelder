@@ -7,7 +7,6 @@ const useData = (onDataReceived: (data: any) => void) => {
   const [connected, setConnected] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(connected);
     if (!connected) {
       const dataStream = new EventSource(stream);
 
@@ -18,7 +17,7 @@ const useData = (onDataReceived: (data: any) => void) => {
       };
 
       dataStream.onerror = (e) => {
-        console.log(e);
+        // console.log(e);
 
         setTimeout(() => {
           setRestartCount(restartCount + 1);

@@ -1,6 +1,6 @@
 import styles from "./cards.module.scss";
 import { setDevice } from "../../functions/setApi";
-import { ICustomDevice } from "./Cards";
+import { ICustomDevice } from "../Dashboard";
 import { IFeatureProperty } from "../../types/devices";
 import CardTitle from "./CardTitle";
 

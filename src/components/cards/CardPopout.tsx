@@ -1,6 +1,6 @@
 import { contrastColor } from "../../functions/colorConvertion";
+import { ICustomDevice } from "../Dashboard";
 import CardTitle from "./CardTitle";
-import { ICustomDevice } from "./Cards";
 import styles from "./cards.module.scss";
 
 interface IProps {

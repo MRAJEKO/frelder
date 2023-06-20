@@ -1,9 +1,9 @@
 @use "../../assets/colors" as *;
 @use "../../assets/index" as *;
 
-.scenes {
-  padding: $gap 0 0 $gap;
-  overflow: auto;
+.title {
+  padding-top: 20px * $scale;
+  padding-left: 30px * $scale;
 }
 
 .scenes-cards {
@@ -17,21 +17,31 @@
   &::-webkit-scrollbar {
     display: none;
   }
-}
 
-.title {
-  padding-top: 20px * $scale;
-  padding-left: 30px * $scale;
-}
+  .scene {
+    border-radius: $border-radius;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $card-background;
+    font-size: 28px * $scale;
+    padding: 20px * $scale 30px * $scale;
+    white-space: nowrap;
+    min-width: fit-content;
+    cursor: pointer;
+    transition: transform 0.3s;
 
-.scene {
-  border-radius: $border-radius;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: $card-background;
-  font-size: 28px * $scale;
-  padding: 20px * $scale 30px * $scale;
-  white-space: nowrap;
-  min-width: fit-content;
+    &.enabled {
+      background-color: $enabled;
+      color: $black;
+
+      p {
+        color: $black !important;
+      }
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
 }
