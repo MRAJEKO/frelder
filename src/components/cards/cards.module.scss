@@ -1,5 +1,6 @@
 @use "../../assets/colors.scss" as *;
 @use "../../assets/index.scss" as *;
+@use "sass:math";
 
 $card-font-size: 23px * $scale;
 $card-width: 175px * $scale;
@@ -22,6 +23,7 @@ $card-width: 175px * $scale;
   justify-content: space-between;
   padding: $gap;
   gap: $gap * 4;
+  overflow: auto;
 }
 
 .lights {
@@ -39,6 +41,8 @@ $card-width: 175px * $scale;
 .card-big {
   height: $card-width;
   justify-content: center !important;
+  text-align: center;
+  font-size: $card-font-size;
 }
 
 .card-brightness {
@@ -52,7 +56,6 @@ $card-width: 175px * $scale;
 .card {
   @include center;
   width: $card-width;
-  font-size: $card-font-size;
   border-radius: $border-radius;
   background-color: $card-background;
   padding: 15px;
@@ -70,10 +73,25 @@ $card-width: 175px * $scale;
     overflow: hidden;
     width: 100%;
   }
+}
 
-  .card-title {
-    width: 100%;
-  }
+.card-title {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.room-name {
+  font-size: math.div($card-font-size, 1.5);
+}
+
+.device-name {
+  font-size: $card-font-size;
+}
+
+.small-text {
+  font-size: math.div($card-font-size, 2);
 }
 
 /* Different options for the cards such as brightness, color setting, ect. */
@@ -119,6 +137,8 @@ $card-width: 175px * $scale;
 
 .card-popout {
   height: 75px * $scale;
+  position: static !important;
+  background-color: $card-background;
 }
 
 .card-state {
@@ -132,8 +152,15 @@ $card-width: 175px * $scale;
 
 .enabled {
   background-color: $enabled;
+  color: $black;
 
   p {
     color: $black !important;
   }
+}
+
+.color-container * {
+  -webkit-user-select: all !important;
+  -ms-user-select: all !important;
+  user-select: all !important;
 }

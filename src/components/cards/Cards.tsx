@@ -6,13 +6,17 @@ import useData from "../../hooks/useData";
 import { IDevice, IDevices, IPayload } from "../../types/devices";
 import hasProperty from "../../functions/hasProperty";
 import CardState from "./CardState";
+import { setDevice } from "../../functions/setApi";
+import CardPopout from "./CardPopout";
+import CardColor from "./CardColor";
+import { convertXYToHexColor } from "../../functions/colorConvertion";
 
 export interface ICustomDevices {
   [key: string]: ICustomDevice;
 }
 
 export interface ICustomDevice {
-  [key: string]: IDevice | boolean | number | string | null;
+  [key: string]: boolean | number | string | null;
   brightnessSetting: boolean;
   brightness: number | null;
   colorSetting: boolean;
@@ -22,8 +26,30 @@ export interface ICustomDevice {
   initialStates: boolean;
 }
 
+export interface IColorPopoutState {
+  topic: string | null;
+  deviceInfo: ICustomDevice | null;
+  shown: boolean;
+}
+
 const Cards = () => {
-  const [devices, setDevices] = useState<ICustomDevices>({});
+  const [devices, setDevices] = useState<ICustomDevices>({
+    "woonkamer/schemerlamp": {
+      brightnessSetting: true,
+      brightness: 76,
+      colorSetting: true,
+      color: null,
+      stateSetting: true,
+      state: "ON",
+      initialStates: false,
+    },
+  });
+
+  const [colorPopout, setColorPopout] = useState<IColorPopoutState>({
+    topic: null,
+    deviceInfo: null,
+    shown: false,
+  });
 
   interface IReceiveData {
     topic: string;
@@ -47,6 +73,8 @@ const Cards = () => {
   };
 
   const handleReceiveData = useCallback(({ topic, payload }: IReceiveData) => {
+    console.log(topic, payload);
+
     setDevices((prevDevices: ICustomDevices) => {
       console.log(prevDevices);
       if (topic === "devices" && Object.keys(prevDevices).length === 0) {
@@ -61,7 +89,13 @@ const Cards = () => {
                 ...acc,
                 [topic]: {
                   ...acc[topic],
-                  [key]: (payload as IPayload)[key],
+                  [key]:
+                    key === "color"
+                      ? convertXYToHexColor(
+                          (payload as IPayload).color?.x ?? 0.3127,
+                          (payload as IPayload).color?.y ?? 0.329
+                        )
+                      : (payload as IPayload)[key],
                 },
               };
             }
@@ -81,6 +115,9 @@ const Cards = () => {
     const newDevices = Object.keys(devices)
       .filter((key) => devices[key].stateSetting)
       .map((key) => {
+        const feature = { state: newState };
+        setDevice(key, feature);
+
         return { [key]: { ...devices[key], state: newState } };
       })
       .reduce((acc, cur) => ({ ...acc, ...cur }), {});
@@ -89,9 +126,10 @@ const Cards = () => {
   };
 
   const changeValue = (topic: string, key: string, value: number | string | boolean) => {
-    console.log(devices);
     const feature = { [key]: value };
-    setDevices({ ...devices, [topic]: { ...devices[topic], ...feature } });
+    setDevices((prevDevices: ICustomDevices) => {
+      return { ...prevDevices, [topic]: { ...prevDevices[topic], ...feature } };
+    });
   };
 
   const allOn = Object.values(devices).every((device) => device.state === "ON");
@@ -99,6 +137,12 @@ const Cards = () => {
   const allOff = Object.values(devices).every((device) => device.state === "OFF");
 
   useData(handleReceiveData);
+
+  const handleColorChange = (newPopoutState: IColorPopoutState, newColor: string, newState: string) => {
+    setColorPopout(newPopoutState);
+    changeValue(newPopoutState.topic ?? "", "color", newColor ?? null);
+    changeValue(newPopoutState.topic ?? "", "state", newState ?? null);
+  };
 
   return (
     <section className={styles.cards}>
@@ -109,13 +153,25 @@ const Cards = () => {
         {Object.keys(devices).map((key) => {
           const device = devices[key];
 
-          if (device.colorSetting) return <CardState topic={key} deviceInfo={device} onChange={changeValue} />;
+          if (device.colorSetting)
+            return (
+              <CardPopout
+                key={key}
+                topic={key}
+                deviceInfo={device}
+                openColor={(topic, deviceInfo) => {
+                  console.log(deviceInfo);
+                  if (!colorPopout.shown) setColorPopout({ topic, deviceInfo, shown: true });
+                }}
+              />
+            );
           else if (device.brightnessSetting)
             return <CardBrightness key={key} topic={key} deviceInfo={device} onChange={changeValue} />;
           else if (device.stateSetting) return <CardState topic={key} deviceInfo={device} onChange={changeValue} />;
         })}
       </div>
       <div className={styles.sensors}></div>
+      <CardColor info={colorPopout} setColorPopout={handleColorChange} />
     </section>
   );
 };

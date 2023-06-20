@@ -1,0 +1,24 @@
+@use "../../assets/index.scss" as *;
+@use "../../assets/colors.scss" as *;
+
+.card {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px * $scale;
+  background-color: $card-dark-background;
+  border-radius: $border-radius;
+  padding: 15px * $scale;
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+  backdrop-filter: blur(10px);
+  transition: all 1s ease-in-out;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: $gap;
+}

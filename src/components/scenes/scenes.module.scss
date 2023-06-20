@@ -3,6 +3,7 @@
 
 .scenes {
   padding: $gap 0 0 $gap;
+  overflow: auto;
 }
 
 .scenes-cards {
@@ -32,4 +33,5 @@
   font-size: 28px * $scale;
   padding: 20px * $scale 30px * $scale;
   white-space: nowrap;
+  min-width: fit-content;
 }

@@ -2,6 +2,7 @@ import styles from "./cards.module.scss";
 import { setDevice } from "../../functions/setApi";
 import { ICustomDevice } from "./Cards";
 import { IFeatureProperty } from "../../types/devices";
+import CardTitle from "./CardTitle";
 
 interface IProps {
   topic: string;
@@ -19,7 +20,7 @@ const CardState = ({ topic, deviceInfo, onChange }: IProps) => {
         onChange(topic, "state", newState);
       }}
     >
-      <p>{topic}</p>
+      <CardTitle topic={topic} />
     </div>
   );
 };

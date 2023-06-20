@@ -1,6 +1,8 @@
 import { host, port, apiSet } from "../config";
 
-export const setDevice = (topic: string, feature: any) => {
+export const setDevice = (topic: string | null, feature: any) => {
+  if (!topic) return console.error("Topic is null");
+
   const payload = {
     topic,
     feature,

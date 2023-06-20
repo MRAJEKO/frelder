@@ -1,0 +1,29 @@
+@use "../assets/colors.scss" as *;
+@use "../assets/index.scss" as *;
+
+.container {
+  background-color: $white;
+  height: 40px * $scale;
+  width: 40px * $scale;
+  position: absolute;
+  right: 20px * $scale;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.line {
+  width: 30px * $scale;
+  background-color: $black;
+  height: 3px * $scale;
+  border-radius: 10px;
+  position: absolute;
+}
+
+.line:nth-child(1) {
+  rotate: 45deg;
+}
+
+.line:nth-child(2) {
+  rotate: -45deg;
+}

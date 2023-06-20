@@ -68,6 +68,6 @@ export type IFeatureProperty =
 export interface IPayload {
   [key: string]: any;
   state?: string;
-  color?: string;
+  color?: { x: number; y: number };
   brightness?: number;
 }
