@@ -9,11 +9,9 @@ interface IProps {
 }
 
 const Scene = ({ name, devices, onSceneChange, brightness }: IProps) => {
-  // console.log(devices);
-
-  const sceneActive = Object.values(devices).every(
-    (deviceValue: ICustomDevice) => deviceValue.brightness === brightness && deviceValue.state === "ON"
-  );
+  const sceneActive = Object.values(devices)
+    .filter((device) => device.brightnessSetting && device.stateSetting)
+    .every((deviceValue: ICustomDevice) => deviceValue.brightness === brightness && deviceValue.state === "ON");
 
   // console.log(sceneActive);
 

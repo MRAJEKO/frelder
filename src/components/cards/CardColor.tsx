@@ -28,7 +28,7 @@ const CardColor = ({ info, setColorPopout }: IProps) => {
   }, [info]);
 
   useEffect(() => {
-    const feature = { state: enabled };
+    const feature = { state: enabled ? "ON" : "OFF" };
     setDevice(info.topic, feature);
   }, [enabled]);
 

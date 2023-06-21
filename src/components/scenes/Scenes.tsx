@@ -1,3 +1,4 @@
+import { setDevice } from "../../functions/setApi";
 import { ICustomDevices } from "../Dashboard";
 import Scene from "./Scene";
 import styles from "./scenes.module.scss";
@@ -14,6 +15,10 @@ const Scenes = ({ devices, setDevices }: IProps) => {
     setDevices((prevDevices: ICustomDevices) => {
       const newDevices = Object.keys(prevDevices)
         .map((deviceName: string) => {
+          if (prevDevices[deviceName].brightnessSetting) {
+            setDevice(deviceName, { brightness });
+          }
+
           return {
             [deviceName]: prevDevices[deviceName].brightnessSetting
               ? {
@@ -43,7 +48,7 @@ const Scenes = ({ devices, setDevices }: IProps) => {
         <Scene
           devices={devices}
           onSceneChange={(brightness: number) => handleSceneChange(brightness)}
-          name="Lichten middelmatig"
+          name="Lichten midden"
           brightness={165}
         />
         <Scene

@@ -1,0 +1,40 @@
+@use "../../assets/index" as *;
+@use "../../assets/colors" as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+  width: $card-width;
+  border-radius: $border-radius;
+  background-color: $card-background;
+  padding: 15px;
+  @include no-select;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+  height: auto;
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px * $scale;
+
+    .name {
+      font-size: 17px * $scale;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 100%;
+    }
+  }
+
+  p {
+    text-overflow: ellipsis;
+    // overflow: hidden;
+    width: 100%;
+  }
+}

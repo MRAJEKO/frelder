@@ -10,7 +10,7 @@ interface IProps {
 }
 
 const CardPopout = ({ topic, deviceInfo, openColor }: IProps) => {
-  // console.log(deviceInfo);
+  console.log(deviceInfo.color);
 
   const color = deviceInfo.color ?? "#ffffff";
 
@@ -25,12 +25,17 @@ const CardPopout = ({ topic, deviceInfo, openColor }: IProps) => {
       }}
     >
       <CardTitle topic={topic} color={deviceInfo.state === "ON" ? contrastColor(color ?? "#ffffff") : undefined} />
-      <p
-        style={{ color: deviceInfo.state === "ON" ? contrastColor(color ?? "#ffffff") : undefined }}
-        className={styles["small-text"]}
-      >
-        Druk voor meer opties
-      </p>
+      <div className={styles["sub-info"]}>
+        <p
+          style={{ color: deviceInfo.state === "ON" ? contrastColor(color ?? "#ffffff") : undefined }}
+          className={styles["small-text"]}
+        >
+          Druk voor meer opties
+        </p>
+        {deviceInfo.brightnessSetting && (
+          <p className={styles.brightness}>{Math.round(((deviceInfo?.brightness || 0) / 254) * 100)}%</p>
+        )}
+      </div>
     </div>
   );
 };

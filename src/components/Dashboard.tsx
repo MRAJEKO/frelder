@@ -16,21 +16,17 @@ export interface ICustomDevice {
   color: string | null;
   stateSetting: boolean;
   state: string | null;
+  temperatureSetting: boolean;
+  temperature: number | null;
+  humiditySetting: boolean;
+  humidity: number | null;
+  pressureSetting: boolean;
+  pressure: number | null;
   initialStates: boolean;
 }
 
 const Dashboard = () => {
-  const [devices, setDevices] = useState<ICustomDevices>({
-    "woonkamer/schemerlamp": {
-      brightnessSetting: true,
-      brightness: 76,
-      colorSetting: true,
-      color: null,
-      stateSetting: true,
-      state: "ON",
-      initialStates: false,
-    },
-  });
+  const [devices, setDevices] = useState<ICustomDevices>({});
 
   console.log(devices);
 

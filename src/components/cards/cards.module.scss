@@ -2,22 +2,6 @@
 @use "../../assets/index.scss" as *;
 @use "sass:math";
 
-$card-font-size: 23px * $scale;
-$card-width: 175px * $scale;
-
-@mixin center {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: center;
-}
-
-@mixin no-select {
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
 .cards {
   display: flex;
   justify-content: space-between;
@@ -47,10 +31,6 @@ $card-width: 175px * $scale;
 
 .card-brightness {
   height: 120px * $scale;
-}
-
-.card-data {
-  height: 100px * $scale;
 }
 
 .card {
@@ -132,6 +112,16 @@ $card-width: 175px * $scale;
     p {
       color: $black;
     }
+  }
+}
+
+.sub-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  p {
+    width: auto !important;
   }
 }
 

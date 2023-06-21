@@ -1,22 +1,48 @@
+// export const convertXYToHexColor = (x: number, y: number) => {
+//   x = Math.round(x * 10000) / 10000;
+//   y = Math.round(y * 10000) / 10000;
+
+//   const z = 1.0 - x - y;
+//   const Y = brightness / 254;
+//   const X = (Y / y) * x;
+//   const Z = (Y / y) * z;
+
+//   const r = Math.round(
+//     (X * 1.656492 - Y * 0.354851 - Z * 0.255038 <= 0.0031308
+//       ? 12.92 * X * 1.656492 - Y * 0.354851 - Z * 0.255038
+//       : 1.055 * Math.pow(X * 1.656492 - Y * 0.354851 - Z * 0.255038, 1 / 2.4) - 0.055) * 255
+//   );
+//   const g = Math.round(
+//     (-X * 0.707196 + Y * 1.655397 + Z * 0.036152 <= 0.0031308
+//       ? 12.92 * -X * 0.707196 + Y * 1.655397 + Z * 0.036152
+//       : 1.055 * Math.pow(-X * 0.707196 + Y * 1.655397 + Z * 0.036152, 1 / 2.4) - 0.055) * 255
+//   );
+//   const b = Math.round(
+//     (X * 0.051713 - Y * 0.121364 + Z * 1.01153 <= 0.0031308
+//       ? 12.92 * X * 0.051713 - Y * 0.121364 + Z * 1.01153
+//       : 1.055 * Math.pow(X * 0.051713 - Y * 0.121364 + Z * 1.01153, 1 / 2.4) - 0.055) * 255
+//   );
+
+//   const hexR = r.toString(16).padStart(2, "0");
+//   const hexG = g.toString(16).padStart(2, "0");
+//   const hexB = b.toString(16).padStart(2, "0");
+
+//   console.log(hexR, hexG, hexB);
+
+//   return "#" + hexR + hexG + hexB;
+// };
+
 export const convertXYToHexColor = (x: number, y: number) => {
-  const X = x / y;
-  const Y = 1;
-  const Z = (1 - x - y) / y;
+  const r = x * 1.656492 - y * 0.354851 - 0.255038;
+  const g = -x * 0.707196 + y * 1.655397 + 0.036152;
+  const b = x * 0.051713 - y * 0.121364 + 1.01153;
 
-  const r = gammaCorrection(X * 3.2406 + Y * -1.5372 + Z * -0.4986);
-  const g = gammaCorrection(X * -0.9689 + Y * 1.8758 + Z * 0.0415);
-  const b = gammaCorrection(X * 0.0557 + Y * -0.204 + Z * 1.057);
-
-  const scaledR = Math.round(r * 255);
-  const scaledG = Math.round(g * 255);
-  const scaledB = Math.round(b * 255);
+  const scaledR = Math.round(Math.max(0, Math.min(1, r)) * 255);
+  const scaledG = Math.round(Math.max(0, Math.min(1, g)) * 255);
+  const scaledB = Math.round(Math.max(0, Math.min(1, b)) * 255);
 
   const hexColor = rgbToHex(scaledR, scaledG, scaledB);
   return hexColor;
-};
-
-const gammaCorrection = (color: number) => {
-  return color <= 0.0031308 ? color * 12.92 : 1.055 * Math.pow(color, 1 / 2.4) - 0.055;
 };
 
 export const rgbToHex = (r: number, g: number, b: number) => {

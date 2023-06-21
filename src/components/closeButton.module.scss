@@ -10,20 +10,26 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-}
+  cursor: pointer;
+  transition: 0.5s;
 
-.line {
-  width: 30px * $scale;
-  background-color: $black;
-  height: 3px * $scale;
-  border-radius: 10px;
-  position: absolute;
-}
+  &:active {
+    scale: 0.9;
+  }
 
-.line:nth-child(1) {
-  rotate: 45deg;
-}
+  .line {
+    width: 30px * $scale;
+    background-color: $black;
+    height: 3px * $scale;
+    border-radius: 10px;
+    position: absolute;
 
-.line:nth-child(2) {
-  rotate: -45deg;
+    &:nth-child(1) {
+      rotate: 45deg;
+    }
+
+    &:nth-child(2) {
+      rotate: -45deg;
+    }
+  }
 }

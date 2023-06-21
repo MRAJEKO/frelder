@@ -11,6 +11,7 @@ import CardPopout from "./CardPopout";
 import CardColor from "./CardColor";
 import { convertXYToHexColor } from "../../functions/colorConvertion";
 import { ICustomDevice, ICustomDevices } from "../Dashboard";
+import CardData from "./CardData";
 
 export interface IColorPopoutState {
   topic: string | null;
@@ -24,10 +25,6 @@ interface IProps {
 }
 
 const Cards = ({ devices, setDevices }: IProps) => {
-  // const [devices, setDevices] = useState<ICustomDevices>({
-
-  // });
-
   const [colorPopout, setColorPopout] = useState<IColorPopoutState>({
     topic: null,
     deviceInfo: null,
@@ -41,17 +38,26 @@ const Cards = ({ devices, setDevices }: IProps) => {
 
   const handleDevicesReceiveData = (payload: IDevices) => {
     return payload
-      .map((device: IDevice) => ({
-        [device.friendly_name]: {
-          brightnessSetting: hasProperty(device, "brightness"),
-          brightness: null,
-          colorSetting: hasProperty(device, "color"),
-          color: null,
-          stateSetting: hasProperty(device, "state"),
-          state: null,
-          initialStates: false,
-        },
-      }))
+      .map((device: IDevice) => {
+        console.log(device);
+        return {
+          [device.friendly_name]: {
+            brightnessSetting: hasProperty(device, "brightness"),
+            brightness: null,
+            colorSetting: hasProperty(device, "color"),
+            color: null,
+            stateSetting: hasProperty(device, "state"),
+            state: null,
+            temperatureSetting: hasProperty(device, "temperature"),
+            temperature: null,
+            humiditySetting: hasProperty(device, "humidity"),
+            humidity: null,
+            pressureSetting: hasProperty(device, "pressure"),
+            pressure: null,
+            initialStates: false,
+          },
+        };
+      })
       .reduce((acc: ICustomDevices, cur: ICustomDevices) => ({ ...acc, ...cur }), {});
   };
 
@@ -67,6 +73,8 @@ const Cards = ({ devices, setDevices }: IProps) => {
       } else {
         const updatedDevices = Object.keys(payload).reduce(
           (acc, key) => {
+            console.log(payload);
+
             if (prevDevices[topic]?.[key] !== undefined) {
               return {
                 ...acc,
@@ -109,9 +117,13 @@ const Cards = ({ devices, setDevices }: IProps) => {
   };
 
   const changeValue = (topic: string, key: string, value: number | string | boolean | null) => {
+    console.log(value);
+
     if (value === null) return;
 
     const feature = { [key]: value };
+    console.log(feature);
+
     setDevices((prevDevices: ICustomDevices) => {
       return { ...prevDevices, [topic]: { ...prevDevices[topic], ...feature } };
     });
@@ -164,7 +176,13 @@ const Cards = ({ devices, setDevices }: IProps) => {
           else if (device.stateSetting) return <CardState topic={key} deviceInfo={device} onChange={changeValue} />;
         })}
       </div>
-      <div className={styles.sensors}></div>
+      <div className={styles.sensors}>
+        {Object.keys(devices).map((key) => {
+          const device = devices[key];
+
+          if (device.temperatureSetting) return <CardData topic={key} deviceInfo={device ?? null} />;
+        })}
+      </div>
       <CardColor info={colorPopout} setColorPopout={handleColorChange} />
     </section>
   );
