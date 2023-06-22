@@ -17,7 +17,7 @@ const useData = (onDataReceived: (data: any) => void) => {
       };
 
       dataStream.onerror = (e) => {
-        // console.log(e);
+        console.log(e);
 
         setTimeout(() => {
           setRestartCount(restartCount + 1);
