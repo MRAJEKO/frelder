@@ -1,4 +1,4 @@
-### Run the preview server
+# Run the preview server
 
 ## Download
 
@@ -12,7 +12,7 @@
 2. Type 'npm i' in the command line
 3. Execute the command by pressing 'enter'
 
-# Build the app
+## Build the app
 
 1. Type 'npm run build' in the command line
 2. Execute the command by pressing 'enter'
